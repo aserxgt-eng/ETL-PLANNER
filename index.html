@@ -1,0 +1,1496 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Elite Teen Lifestyle System</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0a0a0f;
+    --surface: #111118;
+    --surface2: #1a1a24;
+    --border: #2a2a3a;
+    --accent: #00e5ff;
+    --accent2: #ff6b35;
+    --accent3: #7fff6b;
+    --accent4: #bf5fff;
+    --text: #e8e8f0;
+    --muted: #7a7a9a;
+    --gold: #ffd700;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    line-height: 1.7;
+    font-size: 15px;
+  }
+
+  /* HERO */
+  .hero {
+    background: linear-gradient(135deg, #0a0a0f 0%, #0f0f1f 40%, #0a1520 100%);
+    border-bottom: 1px solid var(--border);
+    padding: 60px 24px 48px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: radial-gradient(ellipse 80% 60% at 50% 0%, rgba(0,229,255,0.07), transparent);
+    pointer-events: none;
+  }
+  .hero-tag {
+    display: inline-block;
+    background: rgba(0,229,255,0.12);
+    border: 1px solid rgba(0,229,255,0.3);
+    color: var(--accent);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    padding: 5px 16px;
+    border-radius: 20px;
+    margin-bottom: 20px;
+  }
+  .hero h1 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(48px, 10vw, 96px);
+    letter-spacing: 4px;
+    line-height: 0.95;
+    background: linear-gradient(135deg, #ffffff 0%, #00e5ff 50%, #7fff6b 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 16px;
+  }
+  .hero-sub {
+    color: var(--muted);
+    font-size: 16px;
+    max-width: 560px;
+    margin: 0 auto 28px;
+  }
+  .hero-badges {
+    display: flex; flex-wrap: wrap; gap: 10px;
+    justify-content: center;
+  }
+  .badge {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 6px 14px;
+    font-size: 13px;
+    color: var(--muted);
+  }
+  .badge span { margin-right: 6px; }
+
+  /* NAV */
+  .nav {
+    background: rgba(10,10,15,0.95);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+    position: sticky; top: 0; z-index: 100;
+    padding: 0 24px;
+    display: flex; gap: 0; overflow-x: auto;
+  }
+  .nav a {
+    color: var(--muted);
+    text-decoration: none;
+    font-size: 12px;
+    font-family: 'JetBrains Mono', monospace;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    padding: 14px 16px;
+    white-space: nowrap;
+    border-bottom: 2px solid transparent;
+    transition: all 0.2s;
+  }
+  .nav a:hover { color: var(--accent); border-bottom-color: var(--accent); }
+
+  /* LAYOUT */
+  .container { max-width: 1100px; margin: 0 auto; padding: 0 20px; }
+  .section { padding: 56px 0 32px; border-bottom: 1px solid var(--border); }
+  .section:last-child { border-bottom: none; }
+
+  /* SECTION HEADERS */
+  .sec-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 8px;
+  }
+  .sec-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(32px, 6vw, 52px);
+    letter-spacing: 2px;
+    line-height: 1;
+    margin-bottom: 32px;
+  }
+  .sec-title .highlight { color: var(--accent); }
+  .sec-title .highlight2 { color: var(--accent2); }
+  .sec-title .highlight3 { color: var(--accent3); }
+  .sec-title .highlight4 { color: var(--accent4); }
+
+  /* CARDS */
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 24px;
+    margin-bottom: 16px;
+  }
+  .card-header {
+    display: flex; align-items: center; gap: 12px;
+    margin-bottom: 18px;
+  }
+  .card-icon {
+    width: 40px; height: 40px;
+    border-radius: 10px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 18px;
+    flex-shrink: 0;
+  }
+  .card-title { font-weight: 700; font-size: 16px; }
+  .card-sub { font-size: 12px; color: var(--muted); }
+
+  /* GRID */
+  .grid-2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 16px; }
+  .grid-3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 16px; }
+  .grid-4 { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px; }
+
+  /* TIMELINE TABLE */
+  .timetable {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13.5px;
+    margin-bottom: 12px;
+  }
+  .timetable th {
+    background: var(--surface2);
+    color: var(--accent);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    padding: 10px 14px;
+    text-align: left;
+    border-bottom: 1px solid var(--border);
+  }
+  .timetable td {
+    padding: 10px 14px;
+    border-bottom: 1px solid rgba(42,42,58,0.5);
+    vertical-align: top;
+  }
+  .timetable tr:hover td { background: rgba(0,229,255,0.03); }
+  .time-cell {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    color: var(--accent);
+    white-space: nowrap;
+    font-weight: 700;
+  }
+  .activity-cell { font-weight: 500; }
+  .detail-cell { color: var(--muted); font-size: 13px; }
+  .tag {
+    display: inline-block;
+    padding: 2px 8px;
+    border-radius: 4px;
+    font-size: 11px;
+    font-family: 'JetBrains Mono', monospace;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+  }
+  .tag-workout { background: rgba(127,255,107,0.15); color: var(--accent3); border: 1px solid rgba(127,255,107,0.3); }
+  .tag-study { background: rgba(0,229,255,0.12); color: var(--accent); border: 1px solid rgba(0,229,255,0.25); }
+  .tag-gf { background: rgba(255,107,53,0.12); color: var(--accent2); border: 1px solid rgba(255,107,53,0.3); }
+  .tag-content { background: rgba(191,95,255,0.12); color: var(--accent4); border: 1px solid rgba(191,95,255,0.3); }
+  .tag-food { background: rgba(255,215,0,0.12); color: var(--gold); border: 1px solid rgba(255,215,0,0.3); }
+  .tag-sleep { background: rgba(100,100,200,0.15); color: #8888ff; border: 1px solid rgba(100,100,200,0.3); }
+  .tag-hygiene { background: rgba(255,100,150,0.12); color: #ff88aa; border: 1px solid rgba(255,100,150,0.3); }
+
+  /* WORKOUT TABLE */
+  .workout-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+  }
+  .workout-table th {
+    background: rgba(127,255,107,0.1);
+    color: var(--accent3);
+    padding: 9px 12px;
+    text-align: left;
+    font-size: 11px;
+    font-family: 'JetBrains Mono', monospace;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    border-bottom: 1px solid rgba(127,255,107,0.2);
+  }
+  .workout-table td {
+    padding: 9px 12px;
+    border-bottom: 1px solid rgba(42,42,58,0.4);
+    vertical-align: middle;
+  }
+  .workout-table tr:hover td { background: rgba(127,255,107,0.03); }
+  .exercise-name { font-weight: 600; }
+  .sets-reps {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    color: var(--accent3);
+    font-weight: 700;
+  }
+  .rest-time {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    color: var(--muted);
+  }
+  .tip-cell { color: var(--muted); font-size: 12px; font-style: italic; }
+
+  /* CHECKLIST */
+  .checklist { list-style: none; }
+  .checklist li {
+    padding: 8px 0;
+    border-bottom: 1px solid rgba(42,42,58,0.4);
+    display: flex; align-items: flex-start; gap: 10px;
+    font-size: 14px;
+  }
+  .checklist li:last-child { border-bottom: none; }
+  .check-icon { color: var(--accent3); font-size: 14px; flex-shrink: 0; margin-top: 2px; }
+
+  /* DAY TABS */
+  .day-tabs { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 20px; }
+  .day-tab {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 8px 16px;
+    font-size: 12px;
+    font-family: 'JetBrains Mono', monospace;
+    color: var(--muted);
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .day-tab:hover, .day-tab.active {
+    background: rgba(0,229,255,0.1);
+    border-color: var(--accent);
+    color: var(--accent);
+  }
+
+  /* STAT BOXES */
+  .stat-box {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 18px;
+    text-align: center;
+  }
+  .stat-num {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 40px;
+    line-height: 1;
+    color: var(--accent);
+    margin-bottom: 4px;
+  }
+  .stat-label { font-size: 12px; color: var(--muted); }
+
+  /* ROUTINE BLOCK */
+  .routine-block {
+    background: var(--surface);
+    border-left: 3px solid var(--accent);
+    border-radius: 0 10px 10px 0;
+    padding: 16px 20px;
+    margin-bottom: 12px;
+  }
+  .routine-block.orange { border-left-color: var(--accent2); }
+  .routine-block.green { border-left-color: var(--accent3); }
+  .routine-block.purple { border-left-color: var(--accent4); }
+  .routine-block.gold { border-left-color: var(--gold); }
+  .routine-time {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    color: var(--accent);
+    font-weight: 700;
+    margin-bottom: 4px;
+  }
+  .routine-block.orange .routine-time { color: var(--accent2); }
+  .routine-block.green .routine-time { color: var(--accent3); }
+  .routine-block.purple .routine-time { color: var(--accent4); }
+  .routine-block.gold .routine-time { color: var(--gold); }
+  .routine-activity { font-weight: 600; font-size: 14px; margin-bottom: 4px; }
+  .routine-detail { font-size: 13px; color: var(--muted); }
+
+  /* DIET CARD */
+  .diet-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    overflow: hidden;
+  }
+  .diet-header {
+    background: rgba(255,215,0,0.08);
+    border-bottom: 1px solid rgba(255,215,0,0.15);
+    padding: 14px 20px;
+    display: flex; align-items: center; gap: 10px;
+  }
+  .diet-header-title { font-weight: 700; color: var(--gold); }
+  .diet-body { padding: 16px 20px; }
+  .diet-item {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 8px 0;
+    border-bottom: 1px solid rgba(42,42,58,0.4);
+    font-size: 13.5px;
+  }
+  .diet-item:last-child { border-bottom: none; }
+  .diet-macro {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--gold);
+    background: rgba(255,215,0,0.1);
+    padding: 2px 7px;
+    border-radius: 4px;
+  }
+
+  /* WEEK SCHEDULE */
+  .week-grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 8px;
+    margin-bottom: 16px;
+  }
+  @media (max-width: 700px) { .week-grid { grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); } }
+  .week-day-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 14px 10px;
+    text-align: center;
+  }
+  .week-day-name {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 20px;
+    letter-spacing: 1px;
+    margin-bottom: 6px;
+  }
+  .week-day-focus {
+    font-size: 11px;
+    color: var(--muted);
+    margin-bottom: 8px;
+  }
+  .week-day-type {
+    font-size: 10px;
+    font-family: 'JetBrains Mono', monospace;
+    padding: 3px 8px;
+    border-radius: 4px;
+  }
+
+  /* PILL */
+  .pill {
+    display: inline-flex; align-items: center; gap: 6px;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 5px 12px;
+    font-size: 12px;
+    margin: 4px;
+  }
+
+  /* RULE CARD */
+  .rule-card {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 16px 18px;
+    display: flex; gap: 14px; align-items: flex-start;
+  }
+  .rule-num {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 28px;
+    color: var(--accent);
+    line-height: 1;
+    flex-shrink: 0;
+    min-width: 28px;
+  }
+  .rule-title { font-weight: 600; font-size: 14px; margin-bottom: 4px; }
+  .rule-body { font-size: 13px; color: var(--muted); }
+
+  /* DIVIDER */
+  .divider { height: 1px; background: var(--border); margin: 24px 0; }
+
+  /* PROGRESS BAR */
+  .prog-bar-wrap { margin-bottom: 12px; }
+  .prog-label { display: flex; justify-content: space-between; font-size: 12px; margin-bottom: 5px; }
+  .prog-bar { height: 6px; background: var(--surface2); border-radius: 3px; overflow: hidden; }
+  .prog-fill { height: 100%; border-radius: 3px; transition: width 1s ease; }
+
+  /* SCROLLBAR */
+  ::-webkit-scrollbar { width: 6px; height: 6px; }
+  ::-webkit-scrollbar-track { background: var(--bg); }
+  ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+
+  /* FOOTER */
+  .footer {
+    padding: 32px 24px;
+    text-align: center;
+    color: var(--muted);
+    font-size: 13px;
+    border-top: 1px solid var(--border);
+  }
+
+  @media (max-width: 600px) {
+    .nav { gap: 0; }
+    .nav a { padding: 12px 10px; font-size: 11px; }
+    .timetable, .workout-table { font-size: 12px; }
+    .timetable th, .timetable td, .workout-table th, .workout-table td { padding: 8px 8px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-tag">🇮🇳 Indian Teen · 16 Years Old · Full System</div>
+  <h1>ELITE TEEN<br>LIFESTYLE SYSTEM</h1>
+  <p class="hero-sub">Your complete 7-day repeating weekly routine — calisthenics, glow-up, study, content creation, and daily GF time.</p>
+  <div class="hero-badges">
+    <div class="badge"><span>💪</span>No-Equipment Calisthenics</div>
+    <div class="badge"><span>📚</span>Study System</div>
+    <div class="badge"><span>🎮</span>Content Creator</div>
+    <div class="badge"><span>✨</span>Glow-Up Routine</div>
+    <div class="badge"><span>🌿</span>Indian Budget Diet</div>
+    <div class="badge"><span>💕</span>Daily GF Time</div>
+  </div>
+</div>
+
+<!-- NAV -->
+<nav class="nav">
+  <a href="#timetable">⏰ Timetable</a>
+  <a href="#workout">💪 Workout</a>
+  <a href="#height">📏 Height</a>
+  <a href="#glowup">✨ Glow-Up</a>
+  <a href="#study">📚 Study</a>
+  <a href="#content">🎮 Content</a>
+  <a href="#diet">🍛 Diet</a>
+  <a href="#weekly">📅 Weekly</a>
+  <a href="#mindset">🧠 Mindset</a>
+</nav>
+
+<div class="container">
+
+<!-- ═══════════════════════════════════════════════ -->
+<!-- SECTION 1: TIMETABLE -->
+<!-- ═══════════════════════════════════════════════ -->
+<div class="section" id="timetable">
+  <div class="sec-label">// 01 — Daily Schedule</div>
+  <div class="sec-title">FULL DAILY <span class="highlight">TIMETABLE</span></div>
+
+  <div class="card" style="margin-bottom: 20px; border-color: rgba(0,229,255,0.2);">
+    <div style="font-size: 13px; color: var(--muted);">
+      ⏰ <strong style="color: var(--accent);">Timezone Note:</strong> Your girlfriend is in Canada (9 hrs behind IST). She wakes up ~7:00 AM her time = <strong style="color: var(--accent2);">4:00 PM IST</strong>. You'll call her at <strong style="color: var(--accent2);">4:00 PM – 5:00 PM IST daily</strong> (before your content creation block). On weekends she may be up earlier — adjust accordingly.
+    </div>
+  </div>
+
+  <!-- MORNING ROUTINE -->
+  <div class="sec-label" style="margin-top: 24px;">🌅 Morning Routine</div>
+  <div class="routine-block" style="border-left-color: var(--gold);">
+    <div class="routine-time" style="color: var(--gold);">05:30 AM</div>
+    <div class="routine-activity">⏰ Wake Up</div>
+    <div class="routine-detail">No snooze. Put phone across the room. Open curtains, get sunlight.</div>
+  </div>
+  <div class="routine-block green">
+    <div class="routine-time">05:35 – 05:50 AM</div>
+    <div class="routine-activity">🪥 Morning Hygiene</div>
+    <div class="routine-detail">Brush teeth (2 min), tongue scrape, wash face (cold water), apply moisturizer + SPF.</div>
+  </div>
+  <div class="routine-block">
+    <div class="routine-time">05:50 – 06:10 AM</div>
+    <div class="routine-activity">☀️ Sunlight + Stretching</div>
+    <div class="routine-detail">10 min outdoor walk or balcony sun exposure. 10 min morning stretch (spine, hips, calves).</div>
+  </div>
+  <div class="routine-block" style="border-left-color: var(--gold);">
+    <div class="routine-time">06:10 – 06:30 AM</div>
+    <div class="routine-activity">🍽️ Breakfast</div>
+    <div class="routine-detail">See Diet Plan. 500ml water immediately after waking. Eat within 30 min of rising.</div>
+  </div>
+  <div class="routine-block">
+    <div class="routine-time">06:30 – 07:30 AM</div>
+    <div class="routine-activity">📚 Deep Study Block 1</div>
+    <div class="routine-detail">Hardest subject first. Phone OFF or in another room. No music. Pomodoro: 25/5.</div>
+  </div>
+  <div class="routine-block green">
+    <div class="routine-time">07:30 – 08:30 AM</div>
+    <div class="routine-activity">💪 Workout</div>
+    <div class="routine-detail">Full calisthenics workout (see Workout Plan). 500ml water before/during.</div>
+  </div>
+  <div class="routine-block orange">
+    <div class="routine-time">08:30 – 09:00 AM</div>
+    <div class="routine-activity">🚿 Post-Workout Hygiene</div>
+    <div class="routine-detail">Cold shower (2 min cold at end). Full skincare routine. Hair care.</div>
+  </div>
+
+  <!-- SCHOOL / MIDDAY -->
+  <div class="sec-label" style="margin-top: 24px;">🎒 School / Midday</div>
+  <div class="routine-block" style="border-left-color: #8888ff;">
+    <div class="routine-time" style="color: #8888ff;">09:00 AM – 02:30 PM</div>
+    <div class="routine-activity">🏫 School / Classes</div>
+    <div class="routine-detail">Attend school. During lunch: eat a proper meal, drink water, 5 min eyes-closed rest. No social media doomscrolling.</div>
+  </div>
+  <div class="routine-block" style="border-left-color: var(--gold);">
+    <div class="routine-time" style="color: var(--gold);">02:30 – 03:00 PM</div>
+    <div class="routine-activity">🍛 Lunch at Home + Rest</div>
+    <div class="routine-detail">Big lunch (see diet). 15 min power nap is OK if needed — set alarm, don't oversleep.</div>
+  </div>
+  <div class="routine-block">
+    <div class="routine-time">03:00 – 04:00 PM</div>
+    <div class="routine-activity">📚 Deep Study Block 2</div>
+    <div class="routine-detail">Review class notes. Complete homework. 25/5 Pomodoro method.</div>
+  </div>
+
+  <!-- AFTERNOON: GF CALL -->
+  <div class="routine-block orange">
+    <div class="routine-time">04:00 – 05:00 PM</div>
+    <div class="routine-activity">💕 Girlfriend Call (Canada)</div>
+    <div class="routine-detail">She wakes at 7 AM her time = 4 PM IST. Video/voice call. Protected time — don't skip it.</div>
+  </div>
+
+  <!-- CONTENT CREATION BLOCK -->
+  <div class="sec-label" style="margin-top: 24px;">🎮 Content Creation</div>
+  <div class="routine-block purple">
+    <div class="routine-time">05:00 – 06:00 PM</div>
+    <div class="routine-activity">🎬 Recording / Content Creation</div>
+    <div class="routine-detail">Record gameplay/commentary. Follow content plan. High energy, be yourself.</div>
+  </div>
+  <div class="routine-block" style="border-left-color: var(--gold);">
+    <div class="routine-time" style="color: var(--gold);">06:00 – 06:15 PM</div>
+    <div class="routine-activity">🍵 Evening Snack</div>
+    <div class="routine-detail">Nuts, fruit, or chaas/lassi. Hydrate.</div>
+  </div>
+  <div class="routine-block purple">
+    <div class="routine-time">06:15 – 07:15 PM</div>
+    <div class="routine-activity">✂️ Editing + Thumbnail + Upload Prep</div>
+    <div class="routine-detail">Final edit, export, thumbnail design, description, tags. Ready to upload at 7:15 PM.</div>
+  </div>
+  <div class="routine-block orange">
+    <div class="routine-time">07:15 PM</div>
+    <div class="routine-activity">🚀 VIDEO UPLOAD</div>
+    <div class="routine-detail">Upload at exactly 7:15 PM IST daily. Respond to comments briefly after upload.</div>
+  </div>
+
+  <!-- EVENING -->
+  <div class="sec-label" style="margin-top: 24px;">🌙 Evening Routine</div>
+  <div class="routine-block" style="border-left-color: var(--gold);">
+    <div class="routine-time" style="color: var(--gold);">07:30 – 08:00 PM</div>
+    <div class="routine-activity">🍽️ Dinner</div>
+    <div class="routine-detail">Proper high-protein Indian meal. Eat with family when possible.</div>
+  </div>
+  <div class="routine-block">
+    <div class="routine-time">08:00 – 09:00 PM</div>
+    <div class="routine-activity">⌨️ Typing Practice + Skill Learning</div>
+    <div class="routine-detail">30 min typing (keybr.com or monkeytype). 30 min reading, YouTube learning, or planning next day's content.</div>
+  </div>
+  <div class="routine-block green">
+    <div class="routine-time">09:00 – 09:30 PM</div>
+    <div class="routine-activity">🌙 Night Routine</div>
+    <div class="routine-detail">Night skincare (see Glow-Up). Brush teeth. Journal 5 min. Plan tomorrow.</div>
+  </div>
+  <div class="routine-block" style="border-left-color: #8888ff;">
+    <div class="routine-time" style="color: #8888ff;">09:30 – 10:00 PM</div>
+    <div class="routine-activity">📖 Wind-Down / Reading</div>
+    <div class="routine-detail">No screens. Read fiction/self-help for 30 min. Dim lights. Stretch lightly.</div>
+  </div>
+  <div class="routine-block" style="border-left-color: #8888ff;">
+    <div class="routine-time" style="color: #8888ff;">10:00 PM</div>
+    <div class="routine-activity">😴 LIGHTS OUT / SLEEP</div>
+    <div class="routine-detail">7.5 hours sleep target. Phone on Do Not Disturb, away from bed. Room dark + cool.</div>
+  </div>
+
+  <div class="divider"></div>
+  <!-- STAT BOXES -->
+  <div class="grid-4">
+    <div class="stat-box"><div class="stat-num" style="color: #8888ff;">7.5h</div><div class="stat-label">Sleep Target</div></div>
+    <div class="stat-box"><div class="stat-num" style="color: var(--accent);">3L</div><div class="stat-label">Daily Water</div></div>
+    <div class="stat-box"><div class="stat-num" style="color: var(--accent2);">1h</div><div class="stat-label">GF Call Daily</div></div>
+    <div class="stat-box"><div class="stat-num" style="color: var(--accent4);">1h</div><div class="stat-label">Record + Edit</div></div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════ -->
+<!-- SECTION 2: WORKOUT -->
+<!-- ═══════════════════════════════════════════════ -->
+<div class="section" id="workout">
+  <div class="sec-label">// 02 — No Equipment Training</div>
+  <div class="sec-title">CALISTHENICS <span class="highlight3">WORKOUT</span></div>
+
+  <div class="week-grid" style="margin-bottom: 24px;">
+    <div class="week-day-card" style="border-color: rgba(127,255,107,0.3);">
+      <div class="week-day-name" style="color: var(--accent3);">MON</div>
+      <div class="week-day-focus">Chest + Triceps</div>
+      <div class="week-day-type tag tag-workout">PUSH</div>
+    </div>
+    <div class="week-day-card" style="border-color: rgba(0,229,255,0.3);">
+      <div class="week-day-name" style="color: var(--accent);">TUE</div>
+      <div class="week-day-focus">Back + Biceps</div>
+      <div class="week-day-type tag tag-study">PULL</div>
+    </div>
+    <div class="week-day-card" style="border-color: rgba(191,95,255,0.3);">
+      <div class="week-day-name" style="color: var(--accent4);">WED</div>
+      <div class="week-day-focus">Legs + Core</div>
+      <div class="week-day-type tag tag-content">LEGS</div>
+    </div>
+    <div class="week-day-card">
+      <div class="week-day-name" style="color: var(--muted);">THU</div>
+      <div class="week-day-focus">Rest + Stretch</div>
+      <div class="week-day-type" style="background: rgba(100,100,200,0.15); color: #8888ff; border: 1px solid rgba(100,100,200,0.3); font-size:10px; padding:3px 8px; border-radius:4px; font-family: monospace;">RECOVERY</div>
+    </div>
+    <div class="week-day-card" style="border-color: rgba(127,255,107,0.3);">
+      <div class="week-day-name" style="color: var(--accent3);">FRI</div>
+      <div class="week-day-focus">Full Body</div>
+      <div class="week-day-type tag tag-workout">POWER</div>
+    </div>
+    <div class="week-day-card" style="border-color: rgba(0,229,255,0.3);">
+      <div class="week-day-name" style="color: var(--accent);">SAT</div>
+      <div class="week-day-focus">Arms + Core</div>
+      <div class="week-day-type tag tag-study">SKILL</div>
+    </div>
+    <div class="week-day-card">
+      <div class="week-day-name" style="color: var(--muted);">SUN</div>
+      <div class="week-day-focus">Active Rest</div>
+      <div class="week-day-type" style="background: rgba(100,100,200,0.15); color: #8888ff; border: 1px solid rgba(100,100,200,0.3); font-size:10px; padding:3px 8px; border-radius:4px; font-family: monospace;">REST</div>
+    </div>
+  </div>
+
+  <!-- MONDAY: PUSH -->
+  <div class="card" style="border-color: rgba(127,255,107,0.2); margin-bottom: 12px;">
+    <div class="card-header">
+      <div class="card-icon" style="background: rgba(127,255,107,0.1);">💪</div>
+      <div><div class="card-title">Monday & Friday — Push Day (Chest, Shoulders, Triceps)</div><div class="card-sub">Warm-up 5 min: arm circles, shoulder rolls, 10 jumping jacks</div></div>
+    </div>
+    <table class="workout-table">
+      <tr><th>Exercise</th><th>Beginner</th><th>Intermediate</th><th>Rest</th><th>Notes</th></tr>
+      <tr><td class="exercise-name">🔥 Push-Ups (Standard)</td><td class="sets-reps">3×10</td><td class="sets-reps">4×20</td><td class="rest-time">60s</td><td class="tip-cell">Chest to floor, full extension</td></tr>
+      <tr><td class="exercise-name">Wide Push-Ups</td><td class="sets-reps">3×8</td><td class="sets-reps">4×15</td><td class="rest-time">60s</td><td class="tip-cell">Elbows at 45°, hits chest width</td></tr>
+      <tr><td class="exercise-name">Diamond Push-Ups</td><td class="sets-reps">3×6</td><td class="sets-reps">4×12</td><td class="rest-time">60s</td><td class="tip-cell">Targets triceps heavily</td></tr>
+      <tr><td class="exercise-name">Pike Push-Ups</td><td class="sets-reps">3×8</td><td class="sets-reps">4×15</td><td class="rest-time">60s</td><td class="tip-cell">Shoulder focused, hips high</td></tr>
+      <tr><td class="exercise-name">Tricep Dips (Chair)</td><td class="sets-reps">3×8</td><td class="sets-reps">4×15</td><td class="rest-time">60s</td><td class="tip-cell">Use chair/table edge at home</td></tr>
+      <tr><td class="exercise-name">Decline Push-Ups</td><td class="sets-reps">3×6</td><td class="sets-reps">3×12</td><td class="rest-time">60s</td><td class="tip-cell">Feet on bed/chair, upper chest</td></tr>
+      <tr><td class="exercise-name">Plank Hold</td><td class="sets-reps">3×30s</td><td class="sets-reps">4×60s</td><td class="rest-time">45s</td><td class="tip-cell">Core tight, no hip drop</td></tr>
+    </table>
+  </div>
+
+  <!-- TUESDAY: PULL -->
+  <div class="card" style="border-color: rgba(0,229,255,0.2); margin-bottom: 12px;">
+    <div class="card-header">
+      <div class="card-icon" style="background: rgba(0,229,255,0.1);">🔄</div>
+      <div><div class="card-title">Tuesday & Saturday — Pull Day (Back, Biceps, Posture)</div><div class="card-sub">No pull-up bar needed — use floor and door frame</div></div>
+    </div>
+    <table class="workout-table">
+      <tr><th>Exercise</th><th>Beginner</th><th>Intermediate</th><th>Rest</th><th>Notes</th></tr>
+      <tr><td class="exercise-name">🏠 Door Frame Rows (Aussie Pull)</td><td class="sets-reps">3×8</td><td class="sets-reps">4×15</td><td class="rest-time">60s</td><td class="tip-cell">Grip door frame, body at 45°</td></tr>
+      <tr><td class="exercise-name">Superman Hold</td><td class="sets-reps">3×10s</td><td class="sets-reps">4×20s</td><td class="rest-time">30s</td><td class="tip-cell">Lying prone, lift chest + legs</td></tr>
+      <tr><td class="exercise-name">Reverse Snow Angels (Floor)</td><td class="sets-reps">3×12</td><td class="sets-reps">4×20</td><td class="rest-time">30s</td><td class="tip-cell">Back muscles, posture builder</td></tr>
+      <tr><td class="exercise-name">Scapular Squeezes</td><td class="sets-reps">3×15</td><td class="sets-reps">4×20</td><td class="rest-time">30s</td><td class="tip-cell">Critical for posture + back width</td></tr>
+      <tr><td class="exercise-name">Bicep Curl (Towel + Feet)</td><td class="sets-reps">3×10</td><td class="sets-reps">4×15</td><td class="rest-time">60s</td><td class="tip-cell">Loop towel under foot, curl up</td></tr>
+      <tr><td class="exercise-name">Doorway Chest Opener</td><td class="sets-reps">3×30s</td><td class="sets-reps">4×45s</td><td class="rest-time">30s</td><td class="tip-cell">Arms in doorway, lean forward</td></tr>
+      <tr><td class="exercise-name">Cat-Cow Stretch</td><td class="sets-reps">2×10</td><td class="sets-reps">3×15</td><td class="rest-time">—</td><td class="tip-cell">Spine mobility and decompression</td></tr>
+    </table>
+  </div>
+
+  <!-- WEDNESDAY: LEGS + CORE -->
+  <div class="card" style="border-color: rgba(191,95,255,0.2); margin-bottom: 12px;">
+    <div class="card-header">
+      <div class="card-icon" style="background: rgba(191,95,255,0.1);">🦵</div>
+      <div><div class="card-title">Wednesday — Legs + Core Day</div><div class="card-sub">Height-supporting exercises + abs sculpting</div></div>
+    </div>
+    <table class="workout-table">
+      <tr><th>Exercise</th><th>Beginner</th><th>Intermediate</th><th>Rest</th><th>Notes</th></tr>
+      <tr><td class="exercise-name">🦵 Bodyweight Squats</td><td class="sets-reps">3×15</td><td class="sets-reps">4×25</td><td class="rest-time">60s</td><td class="tip-cell">Full depth, chest up</td></tr>
+      <tr><td class="exercise-name">Jump Squats</td><td class="sets-reps">3×8</td><td class="sets-reps">4×12</td><td class="rest-time">60s</td><td class="tip-cell">Explosive, soft landing</td></tr>
+      <tr><td class="exercise-name">Lunges (Alt legs)</td><td class="sets-reps">3×10e</td><td class="sets-reps">4×15e</td><td class="rest-time">60s</td><td class="tip-cell">e = each leg</td></tr>
+      <tr><td class="exercise-name">Glute Bridges</td><td class="sets-reps">3×15</td><td class="sets-reps">4×20</td><td class="rest-time">45s</td><td class="tip-cell">Drive hips up, squeeze glutes</td></tr>
+      <tr><td class="exercise-name">Calf Raises</td><td class="sets-reps">3×20</td><td class="sets-reps">4×30</td><td class="rest-time">30s</td><td class="tip-cell">On stair edge for full ROM</td></tr>
+      <tr><td class="exercise-name">Bicycle Crunches</td><td class="sets-reps">3×15e</td><td class="sets-reps">4×25e</td><td class="rest-time">45s</td><td class="tip-cell">Slow and controlled</td></tr>
+      <tr><td class="exercise-name">Leg Raises (Floor)</td><td class="sets-reps">3×10</td><td class="sets-reps">4×20</td><td class="rest-time">45s</td><td class="tip-cell">Lower back flat on floor</td></tr>
+      <tr><td class="exercise-name">Mountain Climbers</td><td class="sets-reps">3×20s</td><td class="sets-reps">4×40s</td><td class="rest-time">45s</td><td class="tip-cell">Cardio + core combo</td></tr>
+    </table>
+  </div>
+
+  <!-- PROGRESSIVE OVERLOAD -->
+  <div class="card" style="border-color: rgba(255,215,0,0.2);">
+    <div class="card-header">
+      <div class="card-icon" style="background: rgba(255,215,0,0.1);">📈</div>
+      <div><div class="card-title" style="color: var(--gold);">Progressive Overload Rules</div></div>
+    </div>
+    <div class="grid-2">
+      <div>
+        <ul class="checklist">
+          <li><span class="check-icon">→</span>Each week, add 1-2 reps per set OR 1 extra set</li>
+          <li><span class="check-icon">→</span>When you can do top end reps easily for 2 weeks, level up the exercise</li>
+          <li><span class="check-icon">→</span>Week 1-4: Master form at beginner reps</li>
+          <li><span class="check-icon">→</span>Week 5-8: Move to intermediate reps</li>
+          <li><span class="check-icon">→</span>Week 9+: Add harder variations (archer push-ups, single-leg squats)</li>
+        </ul>
+      </div>
+      <div>
+        <ul class="checklist">
+          <li><span class="check-icon">⚠️</span>NEVER skip warm-up — injury = weeks of lost progress</li>
+          <li><span class="check-icon">⚠️</span>Muscle soreness is OK, joint pain is NOT</li>
+          <li><span class="check-icon">⚠️</span>Form > speed always. Slow controlled reps build more muscle</li>
+          <li><span class="check-icon">⚠️</span>Rest days are when you actually grow — don't skip them</li>
+          <li><span class="check-icon">⚠️</span>Sleep 7.5h minimum or progress slows by ~40%</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════ -->
+<!-- SECTION 3: HEIGHT -->
+<!-- ═══════════════════════════════════════════════ -->
+<div class="section" id="height">
+  <div class="sec-label">// 03 — Natural Height Optimization</div>
+  <div class="sec-title">HEIGHT <span class="highlight">MAXXING</span></div>
+
+  <div class="card" style="border-color: rgba(0,229,255,0.15); margin-bottom: 16px;">
+    <div style="font-size: 13px; color: var(--muted); line-height: 1.8;">
+      ⚠️ <strong style="color: var(--text);">Important truth:</strong> Genetics determines ~80% of height. However, at 16 you are still growing, and these habits ensure you reach your <em>maximum genetic potential</em>. Poor sleep, bad posture, and poor nutrition can rob you of 2–4 cm. This plan aims to close that gap.
+    </div>
+  </div>
+
+  <div class="grid-2">
+    <div class="card" style="border-color: rgba(0,229,255,0.2);">
+      <div class="card-header">
+        <div class="card-icon" style="background: rgba(0,229,255,0.1);">😴</div>
+        <div><div class="card-title">Sleep (Most Important)</div><div class="card-sub">Growth hormone peaks during deep sleep</div></div>
+      </div>
+      <ul class="checklist">
+        <li><span class="check-icon">✓</span>Sleep by 10:00 PM, wake by 5:30 AM (7.5 hrs)</li>
+        <li><span class="check-icon">✓</span>Sleep in a dark, cool room (18–22°C ideal)</li>
+        <li><span class="check-icon">✓</span>No phone 30 min before bed — melatonin killer</li>
+        <li><span class="check-icon">✓</span>Sleep on back with thin pillow when possible</li>
+        <li><span class="check-icon">✓</span>80% of daily growth hormone is released in deep sleep</li>
+      </ul>
+    </div>
+    <div class="card" style="border-color: rgba(127,255,107,0.2);">
+      <div class="card-header">
+        <div class="card-icon" style="background: rgba(127,255,107,0.1);">🧘</div>
+        <div><div class="card-title">Daily Height Stretches</div><div class="card-sub">5–10 min every morning + night</div></div>
+      </div>
+      <ul class="checklist">
+        <li><span class="check-icon">1</span>Hanging stretch (doorframe grip) — 3×30s</li>
+        <li><span class="check-icon">2</span>Cobra stretch (spinal extension) — 3×20s</li>
+        <li><span class="check-icon">3</span>Cat-cow stretch — 10 reps slow</li>
+        <li><span class="check-icon">4</span>Forward fold (hamstrings + spine) — 3×30s</li>
+        <li><span class="check-icon">5</span>Side stretch (arms overhead, lean) — 3×20s each</li>
+        <li><span class="check-icon">6</span>Calf stretch on wall — 2×30s each leg</li>
+      </ul>
+    </div>
+    <div class="card" style="border-color: rgba(255,215,0,0.2);">
+      <div class="card-header">
+        <div class="card-icon" style="background: rgba(255,215,0,0.1);">🍛</div>
+        <div><div class="card-title">Height-Supporting Nutrition</div></div>
+      </div>
+      <ul class="checklist">
+        <li><span class="check-icon">✓</span>Calcium: 1200mg/day — milk, curd, paneer, ragi</li>
+        <li><span class="check-icon">✓</span>Vitamin D: 10–15 min sun daily (morning)</li>
+        <li><span class="check-icon">✓</span>Protein: 1.2–1.5g per kg bodyweight</li>
+        <li><span class="check-icon">✓</span>Zinc: dal, nuts, seeds, whole grains</li>
+        <li><span class="check-icon">✓</span>Avoid high sugar drinks — stunts growth hormone</li>
+        <li><span class="check-icon">✓</span>3 full meals — no crash dieting</li>
+      </ul>
+    </div>
+    <div class="card" style="border-color: rgba(191,95,255,0.2);">
+      <div class="card-header">
+        <div class="card-icon" style="background: rgba(191,95,255,0.1);">🦴</div>
+        <div><div class="card-title">Posture = Instant +2–4 cm</div></div>
+      </div>
+      <ul class="checklist">
+        <li><span class="check-icon">✓</span>Chin parallel to floor at all times</li>
+        <li><span class="check-icon">✓</span>Shoulders back and down (not hunched)</li>
+        <li><span class="check-icon">✓</span>Walk tall — imagine a string pulling your head up</li>
+        <li><span class="check-icon">✓</span>Phone below eye level → neck hump = -2 cm instantly</li>
+        <li><span class="check-icon">✓</span>Don't slouch while studying — sit upright</li>
+        <li><span class="check-icon">✓</span>Back exercises 3x/week improve posture significantly</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════ -->
+<!-- SECTION 4: GLOW UP -->
+<!-- ═══════════════════════════════════════════════ -->
+<div class="section" id="glowup">
+  <div class="sec-label">// 04 — Lookmaxxing & Glow-Up</div>
+  <div class="sec-title">GLOW-UP <span class="highlight2">ROUTINE</span></div>
+
+  <div class="grid-2" style="margin-bottom: 16px;">
+    <!-- MORNING SKINCARE -->
+    <div class="card" style="border-color: rgba(255,107,53,0.2);">
+      <div class="card-header">
+        <div class="card-icon" style="background: rgba(255,107,53,0.1);">🌅</div>
+        <div><div class="card-title" style="color: var(--accent2);">Morning Skincare (5 min)</div><div class="card-sub">Oily/acne-prone teen skin</div></div>
+      </div>
+      <ul class="checklist">
+        <li><span class="check-icon">1</span><strong>Face wash</strong> — gentle foaming cleanser (salicylic acid based). No harsh scrubbing.</li>
+        <li><span class="check-icon">2</span><strong>Cold water rinse</strong> — closes pores, reduces puffiness.</li>
+        <li><span class="check-icon">3</span><strong>Light moisturizer</strong> — oil-free, gel-based (even oily skin needs moisture).</li>
+        <li><span class="check-icon">4</span><strong>SPF 30+</strong> — even on cloudy days. Sun damage = premature aging + dark spots.</li>
+      </ul>
+    </div>
+    <!-- NIGHT SKINCARE -->
+    <div class="card" style="border-color: rgba(191,95,255,0.2);">
+      <div class="card-header">
+        <div class="card-icon" style="background: rgba(191,95,255,0.1);">🌙</div>
+        <div><div class="card-title" style="color: var(--accent4);">Night Skincare (5 min)</div><div class="card-sub">Let your skin repair overnight</div></div>
+      </div>
+      <ul class="checklist">
+        <li><span class="check-icon">1</span><strong>Face wash</strong> — remove sweat, oil, pollution of the day.</li>
+        <li><span class="check-icon">2</span><strong>Spot treatment</strong> — if you have active pimples: dab tea tree oil or niacinamide serum.</li>
+        <li><span class="check-icon">3</span><strong>Moisturize</strong> — light gel moisturizer. Skin repairs during sleep.</li>
+        <li><span class="check-icon">4</span><strong>Lips</strong> — apply vaseline or lip balm nightly. Pink lips in 2–3 weeks.</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- ANTI-ACNE -->
+  <div class="card" style="margin-bottom: 16px; border-color: rgba(127,255,107,0.15);">
+    <div class="card-header">
+      <div class="card-icon" style="background: rgba(127,255,107,0.1);">🌿</div>
+      <div><div class="card-title" style="color: var(--accent3);">Reducing Acne Naturally</div></div>
+    </div>
+    <div class="grid-2">
+      <ul class="checklist">
+        <li><span class="check-icon">✓</span>Change pillowcase every 3–4 days (bacteria builds up)</li>
+        <li><span class="check-icon">✓</span>Never pop pimples — causes scarring and spreads bacteria</li>
+        <li><span class="check-icon">✓</span>Drink 3L water daily — flushes skin-damaging toxins</li>
+        <li><span class="check-icon">✓</span>Reduce oily junk food — processed food spikes insulin → acne</li>
+      </ul>
+      <ul class="checklist">
+        <li><span class="check-icon">✓</span>Sweat = acne if left on skin — wash face after workout</li>
+        <li><span class="check-icon">✓</span>Don't touch your face with unwashed hands</li>
+        <li><span class="check-icon">✓</span>Include turmeric in diet (anti-inflammatory)</li>
+        <li><span class="check-icon">✓</span>Results take 4–8 weeks of consistency — don't rush</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- HAIR + JAWLINE -->
+  <div class="grid-2" style="margin-bottom: 16px;">
+    <div class="card">
+      <div class="card-header">
+        <div class="card-icon" style="background: rgba(0,229,255,0.1);">💇</div>
+        <div><div class="card-title">Hair Care</div></div>
+      </div>
+      <ul class="checklist">
+        <li><span class="check-icon">✓</span>Wash hair 2–3x/week (daily washing strips oils)</li>
+        <li><span class="check-icon">✓</span>Use mild sulfate-free shampoo + lightweight conditioner</li>
+        <li><span class="check-icon">✓</span>Air dry or low-heat dry — no heat damage</li>
+        <li><span class="check-icon">✓</span>Scalp massage 2 min during wash — boosts blood flow + growth</li>
+        <li><span class="check-icon">✓</span>Consistent haircut every 4–5 weeks for clean look</li>
+        <li><span class="check-icon">✓</span>Learn a simple styled look for your face shape</li>
+      </ul>
+    </div>
+    <div class="card">
+      <div class="card-header">
+        <div class="card-icon" style="background: rgba(255,215,0,0.1);">🦷</div>
+        <div><div class="card-title">Jawline + Teeth</div></div>
+      </div>
+      <ul class="checklist">
+        <li><span class="check-icon">✓</span>Mew properly: tongue on roof of mouth at rest</li>
+        <li><span class="check-icon">✓</span>Chew gum 10–15 min/day (masseter development)</li>
+        <li><span class="check-icon">✓</span>Brush 2× daily — whitening toothpaste slowly helps</li>
+        <li><span class="check-icon">✓</span>Floss daily — healthy gums = healthier smile</li>
+        <li><span class="check-icon">✓</span>Reduce dairy excess at night (mucus can affect face shape)</li>
+        <li><span class="check-icon">✓</span>Good posture + chin forward = better jaw appearance</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- CONFIDENCE + FASHION -->
+  <div class="grid-2">
+    <div class="card">
+      <div class="card-header">
+        <div class="card-icon" style="background: rgba(191,95,255,0.1);">👗</div>
+        <div><div class="card-title">Fashion Basics</div></div>
+      </div>
+      <ul class="checklist">
+        <li><span class="check-icon">✓</span>Well-fitting clothes > expensive clothes every time</li>
+        <li><span class="check-icon">✓</span>Stick to neutral colors: white, black, grey, navy, olive</li>
+        <li><span class="check-icon">✓</span>Slim-fit (not skinny) jeans or trousers look cleanest</li>
+        <li><span class="check-icon">✓</span>Clean shoes — dirty shoes ruin the whole look</li>
+        <li><span class="check-icon">✓</span>Iron clothes — wrinkled = careless appearance</li>
+        <li><span class="check-icon">✓</span>Smell good: use deodorant daily, light cologne on neck + wrists</li>
+      </ul>
+    </div>
+    <div class="card">
+      <div class="card-header">
+        <div class="card-icon" style="background: rgba(255,107,53,0.1);">🔥</div>
+        <div><div class="card-title">Confidence & Body Language</div></div>
+      </div>
+      <ul class="checklist">
+        <li><span class="check-icon">✓</span>Walk at normal pace — don't rush or shuffle</li>
+        <li><span class="check-icon">✓</span>Make steady, natural eye contact when talking</li>
+        <li><span class="check-icon">✓</span>Speak slowly and clearly — don't mumble</li>
+        <li><span class="check-icon">✓</span>Occupy space naturally — don't shrink yourself</li>
+        <li><span class="check-icon">✓</span>Smile genuinely — it's the most attractive thing you can do</li>
+        <li><span class="check-icon">✓</span>Every good habit you build adds to confidence automatically</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════ -->
+<!-- SECTION 5: STUDY -->
+<!-- ═══════════════════════════════════════════════ -->
+<div class="section" id="study">
+  <div class="sec-label">// 05 — Academic & Skill Development</div>
+  <div class="sec-title">STUDY <span class="highlight">SYSTEM</span></div>
+
+  <div class="grid-2" style="margin-bottom: 16px;">
+    <div class="card" style="border-color: rgba(0,229,255,0.2);">
+      <div class="card-header">
+        <div class="card-icon" style="background: rgba(0,229,255,0.1);">🍅</div>
+        <div><div class="card-title">Pomodoro Method</div><div class="card-sub">The only study system that actually works</div></div>
+      </div>
+      <ul class="checklist">
+        <li><span class="check-icon">→</span><strong>25 min</strong> — deep focus, phone in another room, one task only</li>
+        <li><span class="check-icon">→</span><strong>5 min break</strong> — stand, stretch, drink water. No social media.</li>
+        <li><span class="check-icon">→</span><strong>After 4 rounds</strong> — 20 min longer break</li>
+        <li><span class="check-icon">→</span>Do 4–6 Pomodoros per study session (2–3 hours)</li>
+        <li><span class="check-icon">→</span>Use a physical timer or Forest app — not your phone clock</li>
+      </ul>
+    </div>
+    <div class="card" style="border-color: rgba(127,255,107,0.2);">
+      <div class="card-header">
+        <div class="card-icon" style="background: rgba(127,255,107,0.1);">🧠</div>
+        <div><div class="card-title">Active Recall Method</div><div class="card-sub">2–4× more effective than re-reading</div></div>
+      </div>
+      <ul class="checklist">
+        <li><span class="check-icon">→</span>Read a section → close book → write what you remember</li>
+        <li><span class="check-icon">→</span>Convert notes into questions → test yourself daily</li>
+        <li><span class="check-icon">→</span>Use spaced repetition: review after 1 day, 3 days, 1 week</li>
+        <li><span class="check-icon">→</span>Teach concepts out loud as if explaining to a friend</li>
+        <li><span class="check-icon">→</span>Anki app for memorization-heavy subjects (biology, history)</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- TYPING -->
+  <div class="card" style="border-color: rgba(191,95,255,0.2); margin-bottom: 16px;">
+    <div class="card-header">
+      <div class="card-icon" style="background: rgba(191,95,255,0.1);">⌨️</div>
+      <div><div class="card-title" style="color: var(--accent4);">Daily Typing Practice (30 min at 8:00 PM)</div></div>
+    </div>
+    <div class="grid-3">
+      <div>
+        <div style="font-size: 12px; color: var(--muted); margin-bottom: 8px; font-family: monospace; text-transform: uppercase; letter-spacing: 1px;">Month 1–2</div>
+        <ul class="checklist">
+          <li><span class="check-icon">→</span>Use <strong>keybr.com</strong> daily</li>
+          <li><span class="check-icon">→</span>Home row mastery first</li>
+          <li><span class="check-icon">→</span>Goal: 40 WPM with 95% accuracy</li>
+        </ul>
+      </div>
+      <div>
+        <div style="font-size: 12px; color: var(--muted); margin-bottom: 8px; font-family: monospace; text-transform: uppercase; letter-spacing: 1px;">Month 3–4</div>
+        <ul class="checklist">
+          <li><span class="check-icon">→</span>Switch to <strong>monkeytype.com</strong></li>
+          <li><span class="check-icon">→</span>Time trials: 60s, 120s modes</li>
+          <li><span class="check-icon">→</span>Goal: 60–70 WPM</li>
+        </ul>
+      </div>
+      <div>
+        <div style="font-size: 12px; color: var(--muted); margin-bottom: 8px; font-family: monospace; text-transform: uppercase; letter-spacing: 1px;">Month 5+</div>
+        <ul class="checklist">
+          <li><span class="check-icon">→</span>10fastfingers.com competitions</li>
+          <li><span class="check-icon">→</span>Type content scripts to practice</li>
+          <li><span class="check-icon">→</span>Goal: 80–100 WPM</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- DOPAMINE CONTROL -->
+  <div class="card" style="border-color: rgba(255,107,53,0.2);">
+    <div class="card-header">
+      <div class="card-icon" style="background: rgba(255,107,53,0.1);">⚡</div>
+      <div><div class="card-title" style="color: var(--accent2);">Dopamine Control & Anti-Procrastination</div></div>
+    </div>
+    <div class="grid-2">
+      <ul class="checklist">
+        <li><span class="check-icon">🚫</span>No reels/TikTok/shorts before 6 PM</li>
+        <li><span class="check-icon">🚫</span>No gaming before study blocks are done</li>
+        <li><span class="check-icon">🚫</span>Delete or disable Instagram Explore/Reels</li>
+        <li><span class="check-icon">✓</span>Use 2-minute rule: if a task takes <2 min, do it NOW</li>
+      </ul>
+      <ul class="checklist">
+        <li><span class="check-icon">✓</span>Work rewards: finish study block → 10 min game/call</li>
+        <li><span class="check-icon">✓</span>Put phone face-down during study (vibration off)</li>
+        <li><span class="check-icon">✓</span>Study with lo-fi music if needed — no songs with lyrics</li>
+        <li><span class="check-icon">✓</span>Plan tomorrow the night before — reduces morning decisions</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════ -->
+<!-- SECTION 6: CONTENT CREATION -->
+<!-- ═══════════════════════════════════════════════ -->
+<div class="section" id="content">
+  <div class="sec-label">// 06 — Content Creator Workflow</div>
+  <div class="sec-title">CONTENT <span class="highlight4">CREATION</span></div>
+
+  <div class="grid-2" style="margin-bottom: 16px;">
+    <div class="card" style="border-color: rgba(191,95,255,0.2);">
+      <div class="card-header">
+        <div class="card-icon" style="background: rgba(191,95,255,0.1);">🎬</div>
+        <div><div class="card-title">Recording Workflow (5:00–6:00 PM)</div></div>
+      </div>
+      <ul class="checklist">
+        <li><span class="check-icon">1</span>Open content plan from last night — know what you're making</li>
+        <li><span class="check-icon">2</span>Set up screen recorder + mic test (30 seconds)</li>
+        <li><span class="check-icon">3</span>Record in one take when possible — authenticity > perfection</li>
+        <li><span class="check-icon">4</span>Keep a notepad for timestamps of good moments while recording</li>
+        <li><span class="check-icon">5</span>Always record 10% more content than you think you need</li>
+        <li><span class="check-icon">6</span>End recording by 6:00 PM sharp — editing window starts</li>
+      </ul>
+    </div>
+    <div class="card" style="border-color: rgba(191,95,255,0.2);">
+      <div class="card-header">
+        <div class="card-icon" style="background: rgba(191,95,255,0.1);">✂️</div>
+        <div><div class="card-title">Editing Workflow (6:15–7:15 PM)</div></div>
+      </div>
+      <ul class="checklist">
+        <li><span class="check-icon">1</span>Import footage — cut dead air and pauses first</li>
+        <li><span class="check-icon">2</span>Add background music (royalty-free: Pixabay, YouTube Audio)</li>
+        <li><span class="check-icon">3</span>Add intro (max 5 seconds) and outro with subscribe CTA</li>
+        <li><span class="check-icon">4</span>Add text overlays, zoom cuts, or effects at exciting moments</li>
+        <li><span class="check-icon">5</span>Export in 1080p — choose right format for platform</li>
+        <li><span class="check-icon">6</span>Make thumbnail in Canva (10 min max — don't overthink it)</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- UPLOAD CHECKLIST -->
+  <div class="card" style="border-color: rgba(255,215,0,0.2); margin-bottom: 16px;">
+    <div class="card-header">
+      <div class="card-icon" style="background: rgba(255,215,0,0.1);">🚀</div>
+      <div><div class="card-title" style="color: var(--gold);">Upload Checklist (7:15 PM SHARP)</div></div>
+    </div>
+    <div class="grid-2">
+      <ul class="checklist">
+        <li><span class="check-icon">☐</span>Catchy title with keyword (SEO matters)</li>
+        <li><span class="check-icon">☐</span>Thumbnail looks good on mobile (small size)</li>
+        <li><span class="check-icon">☐</span>Description filled: 150+ words + links</li>
+        <li><span class="check-icon">☐</span>Tags: 10–15 relevant tags added</li>
+      </ul>
+      <ul class="checklist">
+        <li><span class="check-icon">☐</span>End screen added with subscribe + next video</li>
+        <li><span class="check-icon">☐</span>Chapters added in description for longer videos</li>
+        <li><span class="check-icon">☐</span>Upload scheduled at 7:15 PM daily</li>
+        <li><span class="check-icon">☐</span>Share to community post / story after upload</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- CONTENT PLANNING -->
+  <div class="card">
+    <div class="card-header">
+      <div class="card-icon" style="background: rgba(0,229,255,0.1);">📋</div>
+      <div><div class="card-title">Weekly Content Planning</div><div class="card-sub">Done every Sunday during wind-down time</div></div>
+    </div>
+    <table class="timetable">
+      <tr><th>Day</th><th>Content Theme</th><th>Format</th></tr>
+      <tr><td class="time-cell">MON</td><td>Gameplay highlights or tutorial</td><td><span class="tag tag-content">Main video</span></td></tr>
+      <tr><td class="time-cell">TUE</td><td>Reaction, tips, or challenge</td><td><span class="tag tag-content">Main video</span></td></tr>
+      <tr><td class="time-cell">WED</td><td>Story time or behind-the-scenes</td><td><span class="tag tag-content">Creative</span></td></tr>
+      <tr><td class="time-cell">THU</td><td>Top 10 / funny moments compilation</td><td><span class="tag tag-content">Compilation</span></td></tr>
+      <tr><td class="time-cell">FRI</td><td>Collab idea or trending topic</td><td><span class="tag tag-content">Trending</span></td></tr>
+      <tr><td class="time-cell">SAT</td><td>Q&A, community response or update</td><td><span class="tag tag-content">Community</span></td></tr>
+      <tr><td class="time-cell">SUN</td><td>Repurpose best clip into Shorts</td><td><span class="tag tag-content">Shorts</span></td></tr>
+    </table>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════ -->
+<!-- SECTION 7: DIET -->
+<!-- ═══════════════════════════════════════════════ -->
+<div class="section" id="diet">
+  <div class="sec-label">// 07 — Budget-Friendly Indian Diet</div>
+  <div class="sec-title">DIET <span class="highlight" style="color: var(--gold);">PLAN</span></div>
+
+  <div class="card" style="border-color: rgba(255,215,0,0.2); margin-bottom: 16px;">
+    <div style="font-size: 13px; color: var(--muted); line-height: 1.8;">
+      🎯 <strong style="color: var(--text);">Goal:</strong> High protein, moderate carbs, healthy fats. No supplements needed. Indian food is actually ideal for muscle growth, energy, and skin. Eat everything on this list — <strong style="color: var(--gold);">don't skip meals.</strong> You're 16 and still growing — your body NEEDS calories.
+    </div>
+  </div>
+
+  <div class="grid-3">
+    <div class="diet-card">
+      <div class="diet-header"><span>☀️</span><div class="diet-header-title">Breakfast (6:10 AM)</div></div>
+      <div class="diet-body">
+        <div class="diet-item"><span>3–4 whole eggs (boiled/scrambled)</span><span class="diet-macro">~18g P</span></div>
+        <div class="diet-item"><span>2 rotis or 1 cup oats</span><span class="diet-macro">Carbs</span></div>
+        <div class="diet-item"><span>1 glass full-fat milk</span><span class="diet-macro">8g P</span></div>
+        <div class="diet-item"><span>1 banana or seasonal fruit</span><span class="diet-macro">Energy</span></div>
+        <div class="diet-item"><span>1 tbsp ghee on roti</span><span class="diet-macro">Healthy fat</span></div>
+        <div class="diet-item"><span>500ml water on wake</span><span class="diet-macro">Hydration</span></div>
+      </div>
+    </div>
+    <div class="diet-card">
+      <div class="diet-header"><span>🌤️</span><div class="diet-header-title">Lunch (2:30 PM)</div></div>
+      <div class="diet-body">
+        <div class="diet-item"><span>2 cups rice or 4 rotis</span><span class="diet-macro">Carbs</span></div>
+        <div class="diet-item"><span>1 cup dal (moong/chana/toor)</span><span class="diet-macro">~14g P</span></div>
+        <div class="diet-item"><span>Chicken/paneer/rajma curry</span><span class="diet-macro">~20g P</span></div>
+        <div class="diet-item"><span>Sabzi (spinach, palak, bhindi)</span><span class="diet-macro">Micronutrients</span></div>
+        <div class="diet-item"><span>Curd/raita (1 cup)</span><span class="diet-macro">Probiotics</span></div>
+        <div class="diet-item"><span>Salad: cucumber, tomato, onion</span><span class="diet-macro">Fiber</span></div>
+      </div>
+    </div>
+    <div class="diet-card">
+      <div class="diet-header"><span>🌙</span><div class="diet-header-title">Dinner (7:30 PM)</div></div>
+      <div class="diet-body">
+        <div class="diet-item"><span>3–4 rotis or rice</span><span class="diet-macro">Carbs</span></div>
+        <div class="diet-item"><span>Egg bhurji / chicken / paneer</span><span class="diet-macro">~18g P</span></div>
+        <div class="diet-item"><span>1 cup lentil soup or dal</span><span class="diet-macro">~10g P</span></div>
+        <div class="diet-item"><span>Cooked vegetables</span><span class="diet-macro">Vitamins</span></div>
+        <div class="diet-item"><span>1 glass warm milk (optional)</span><span class="diet-macro">Casein</span></div>
+        <div class="diet-item"><span>No heavy fried food after 7 PM</span><span class="diet-macro">Rule</span></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="grid-2" style="margin-top: 16px;">
+    <div class="diet-card">
+      <div class="diet-header"><span>🍎</span><div class="diet-header-title">Healthy Snacks (6:00 PM)</div></div>
+      <div class="diet-body">
+        <div class="diet-item"><span>Handful mixed nuts (10–15 nuts)</span><span class="diet-macro">Good fat</span></div>
+        <div class="diet-item"><span>Chana chaat or roasted chana</span><span class="diet-macro">Protein</span></div>
+        <div class="diet-item"><span>Chaas / lassi (buttermilk)</span><span class="diet-macro">Probiotic</span></div>
+        <div class="diet-item"><span>Seasonal fruit</span><span class="diet-macro">Vitamins</span></div>
+        <div class="diet-item"><span>Boiled sweet potato (on workout days)</span><span class="diet-macro">Carbs</span></div>
+      </div>
+    </div>
+    <div class="card" style="border-color: rgba(255,107,53,0.2);">
+      <div class="card-header" style="margin-bottom: 12px;">
+        <div class="card-icon" style="background: rgba(255,107,53,0.1);">🚫</div>
+        <div><div class="card-title">Foods to Minimize</div></div>
+      </div>
+      <ul class="checklist">
+        <li><span class="check-icon">🚫</span>Sugary drinks (Pepsi, Maaza, packaged juice) — insulin spike → acne</li>
+        <li><span class="check-icon">🚫</span>Chips, namkeen, junk snacks daily — empty calories</li>
+        <li><span class="check-icon">🚫</span>Excess fried food — clogs pores, reduces energy</li>
+        <li><span class="check-icon">🚫</span>Late-night heavy meals — disrupts sleep quality</li>
+        <li><span class="check-icon">✓</span>Occasional treat (once a week) is completely fine</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════ -->
+<!-- SECTION 8: WEEKLY STRUCTURE -->
+<!-- ═══════════════════════════════════════════════ -->
+<div class="section" id="weekly">
+  <div class="sec-label">// 08 — 7-Day Weekly Structure</div>
+  <div class="sec-title">WEEKLY <span class="highlight3">SCHEDULE</span></div>
+
+  <table class="timetable" style="margin-bottom: 24px;">
+    <tr>
+      <th>Day</th>
+      <th>Theme</th>
+      <th>Workout</th>
+      <th>Study Focus</th>
+      <th>Glow-Up</th>
+      <th>Special</th>
+    </tr>
+    <tr>
+      <td class="time-cell">MON</td>
+      <td><strong>Power Day</strong></td>
+      <td><span class="tag tag-workout">Push Day</span></td>
+      <td>Hardest subject</td>
+      <td>Full skincare + hair wash</td>
+      <td>Week planning, new goals set</td>
+    </tr>
+    <tr>
+      <td class="time-cell">TUE</td>
+      <td><strong>Skill Day</strong></td>
+      <td><span class="tag tag-study">Pull Day</span></td>
+      <td>Practice problems</td>
+      <td>Eye area focus</td>
+      <td>Learn new content skill</td>
+    </tr>
+    <tr>
+      <td class="time-cell">WED</td>
+      <td><strong>Deep Work</strong></td>
+      <td><span class="tag tag-content">Legs + Core</span></td>
+      <td>Project / revision</td>
+      <td>Posture drills (extra)</td>
+      <td>Extra typing: 45 min</td>
+    </tr>
+    <tr>
+      <td class="time-cell">THU</td>
+      <td><strong>Recovery</strong></td>
+      <td><span class="tag tag-sleep">Stretching only</span></td>
+      <td>Light review + notes</td>
+      <td>Face mask / steam</td>
+      <td>Early to bed (9:30 PM)</td>
+    </tr>
+    <tr>
+      <td class="time-cell">FRI</td>
+      <td><strong>Glow-Up Day</strong></td>
+      <td><span class="tag tag-workout">Full Body</span></td>
+      <td>Mock tests / past papers</td>
+      <td>Full glow-up routine</td>
+      <td>Dress well, clean room</td>
+    </tr>
+    <tr>
+      <td class="time-cell">SAT</td>
+      <td><strong>Creative Day</strong></td>
+      <td><span class="tag tag-study">Arms + Core</span></td>
+      <td>Self-learning / hobby</td>
+      <td>Hair care + nails trim</td>
+      <td>Longer GF call weekend</td>
+    </tr>
+    <tr>
+      <td class="time-cell">SUN</td>
+      <td><strong>Reset Day</strong></td>
+      <td><span class="tag tag-sleep">Walk only</span></td>
+      <td>Weekly review</td>
+      <td>Skincare deep clean</td>
+      <td>Plan next week, journal</td>
+    </tr>
+  </table>
+
+  <!-- THURSDAY RECOVERY DETAIL -->
+  <div class="card" style="border-color: rgba(100,100,200,0.2); margin-bottom: 12px;">
+    <div class="card-header">
+      <div class="card-icon" style="background: rgba(100,100,200,0.1);">💆</div>
+      <div><div class="card-title" style="color: #8888ff;">Thursday — Full Recovery Day Routine</div></div>
+    </div>
+    <div class="grid-2">
+      <ul class="checklist">
+        <li><span class="check-icon">✓</span>10 min morning full-body stretch (no workout)</li>
+        <li><span class="check-icon">✓</span>15 min face steam + clay mask (unclogs pores)</li>
+        <li><span class="check-icon">✓</span>Light study only — revise, no new hard topics</li>
+      </ul>
+      <ul class="checklist">
+        <li><span class="check-icon">✓</span>Extra 30 min for GF call if she's available</li>
+        <li><span class="check-icon">✓</span>In bed by 9:30 PM — let muscles fully repair</li>
+        <li><span class="check-icon">✓</span>Journal: 3 wins from the week so far</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════ -->
+<!-- SECTION 9: MINDSET -->
+<!-- ═══════════════════════════════════════════════ -->
+<div class="section" id="mindset">
+  <div class="sec-label">// 09 — Mentality & Discipline</div>
+  <div class="sec-title">MINDSET <span class="highlight2">RULES</span></div>
+
+  <div class="grid-2" style="margin-bottom: 16px;">
+    <div>
+      <div class="rule-card" style="margin-bottom: 8px;">
+        <div class="rule-num">01</div>
+        <div><div class="rule-title">Identity first, habits second</div><div class="rule-body">Tell yourself: "I am someone who trains, studies, and creates every day." When your identity shifts, the habits follow automatically.</div></div>
+      </div>
+      <div class="rule-card" style="margin-bottom: 8px;">
+        <div class="rule-num">02</div>
+        <div><div class="rule-title">Never miss twice</div><div class="rule-body">Missing one day is an accident. Missing two is a new habit forming. Always bounce back the next day — no guilt, just action.</div></div>
+      </div>
+      <div class="rule-card" style="margin-bottom: 8px;">
+        <div class="rule-num">03</div>
+        <div><div class="rule-title">Win the morning, win the day</div><div class="rule-body">If you complete your morning routine (stretch, sunlight, breakfast, study block), the rest of the day is already 60% won.</div></div>
+      </div>
+      <div class="rule-card">
+        <div class="rule-num">04</div>
+        <div><div class="rule-title">Compare to yesterday's you</div><div class="rule-body">Looking at other people's bodies or channels will kill your motivation. The only competition is who you were yesterday.</div></div>
+      </div>
+    </div>
+    <div>
+      <div class="rule-card" style="margin-bottom: 8px;">
+        <div class="rule-num">05</div>
+        <div><div class="rule-title">Social media is a tool, not entertainment</div><div class="rule-body">Use it to grow your channel, learn, or connect. Set 45-min screen time limit on Instagram/YouTube Shorts (use Screen Time settings).</div></div>
+      </div>
+      <div class="rule-card" style="margin-bottom: 8px;">
+        <div class="rule-num">06</div>
+        <div><div class="rule-title">Your girlfriend is your teammate</div><div class="rule-body">Share your goals with her. Having someone who believes in you in Canada while you grind in India is a massive strength, not a distraction.</div></div>
+      </div>
+      <div class="rule-card" style="margin-bottom: 8px;">
+        <div class="rule-num">07</div>
+        <div><div class="rule-title">Discipline is built, not born</div><div class="rule-body">Nobody woke up disciplined. It comes from doing the hard thing when you don't feel like it — for 3 weeks straight, until it's automatic.</div></div>
+      </div>
+      <div class="rule-card">
+        <div class="rule-num">08</div>
+        <div><div class="rule-title">Progress is invisible until it isn't</div><div class="rule-body">Results in fitness, skin, and content take 4–12 weeks to show. Trust the process when you can't see it yet. Your future self is watching.</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- DAILY CHECKLIST -->
+  <div class="card" style="border-color: rgba(0,229,255,0.2);">
+    <div class="card-header">
+      <div class="card-icon" style="background: rgba(0,229,255,0.1);">✅</div>
+      <div><div class="card-title">Daily Non-Negotiables Checklist</div><div class="card-sub">These 10 things done daily = massive transformation in 90 days</div></div>
+    </div>
+    <div class="grid-2">
+      <ul class="checklist">
+        <li><span class="check-icon">☐</span>Morning routine complete (sunlight, stretch, breakfast)</li>
+        <li><span class="check-icon">☐</span>3L water drunk throughout the day</li>
+        <li><span class="check-icon">☐</span>Workout or stretching done</li>
+        <li><span class="check-icon">☐</span>AM + PM skincare done</li>
+        <li><span class="check-icon">☐</span>2+ hours of focused study</li>
+      </ul>
+      <ul class="checklist">
+        <li><span class="check-icon">☐</span>Video recorded and uploaded at 7:15 PM</li>
+        <li><span class="check-icon">☐</span>Girlfriend call at 4:00 PM IST</li>
+        <li><span class="check-icon">☐</span>30 min typing practice</li>
+        <li><span class="check-icon">☐</span>Phone away by 9:30 PM</li>
+        <li><span class="check-icon">☐</span>In bed by 10:00 PM</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- SCREEN LIMITS -->
+  <div class="card" style="margin-top: 16px; border-color: rgba(255,107,53,0.15);">
+    <div class="card-header">
+      <div class="card-icon" style="background: rgba(255,107,53,0.1);">📱</div>
+      <div><div class="card-title" style="color: var(--accent2);">Screen Time Rules</div></div>
+    </div>
+    <div class="grid-3">
+      <div style="text-align: center; padding: 12px; background: var(--surface2); border-radius: 8px;">
+        <div style="font-family: 'Bebas Neue'; font-size: 32px; color: var(--accent2);">45m</div>
+        <div style="font-size: 12px; color: var(--muted);">Instagram/TikTok max/day</div>
+      </div>
+      <div style="text-align: center; padding: 12px; background: var(--surface2); border-radius: 8px;">
+        <div style="font-family: 'Bebas Neue'; font-size: 32px; color: var(--accent);">30m</div>
+        <div style="font-size: 12px; color: var(--muted);">YouTube entertainment/day</div>
+      </div>
+      <div style="text-align: center; padding: 12px; background: var(--surface2); border-radius: 8px;">
+        <div style="font-family: 'Bebas Neue'; font-size: 32px; color: var(--accent4);">NO</div>
+        <div style="font-size: 12px; color: var(--muted);">Screens 30 min before sleep</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- CLOSING -->
+<div class="section" style="border: none; padding-bottom: 0;">
+  <div class="card" style="background: linear-gradient(135deg, rgba(0,229,255,0.06), rgba(127,255,107,0.04)); border-color: rgba(0,229,255,0.2); text-align: center; padding: 40px;">
+    <div style="font-family: 'Bebas Neue'; font-size: 36px; letter-spacing: 2px; margin-bottom: 12px; background: linear-gradient(135deg, #fff 0%, #00e5ff 60%, #7fff6b 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">THE GAME STARTS NOW</div>
+    <p style="color: var(--muted); max-width: 520px; margin: 0 auto 20px; font-size: 14px; line-height: 1.8;">You now have everything — the timetable, the workouts, the diet, the skincare, the study system, and the content workflow. At 16, with this level of structure, you will be unrecognizable in 6 months. Start tomorrow. No — start today.</p>
+    <div style="display: flex; flex-wrap: wrap; gap: 10px; justify-content: center;">
+      <div class="pill">💪 90 days = new body</div>
+      <div class="pill">✨ 60 days = skin glow-up</div>
+      <div class="pill">📈 30 days = study momentum</div>
+      <div class="pill">🎮 6 months = channel growth</div>
+      <div class="pill">💕 Every day = GF call at 4 PM IST</div>
+    </div>
+  </div>
+</div>
+
+</div><!-- end container -->
+
+<div class="footer">
+  🇮🇳 Elite Teen Lifestyle System — Made for a 16-year-old Indian content creator building his best self<br>
+  <span style="color: rgba(122,122,154,0.5); font-size: 11px; margin-top: 4px; display: block;">No steroids · No extreme dieting · No harmful methods · Just discipline + consistency</span>
+</div>
+
+
+<!-- NOTIFICATION SYSTEM -->
+<style>
+.notify-btn{
+  position:fixed;
+  bottom:20px;
+  right:20px;
+  background:#00e5ff;
+  color:#000;
+  border:none;
+  padding:14px 18px;
+  border-radius:12px;
+  font-weight:700;
+  cursor:pointer;
+  z-index:9999;
+  box-shadow:0 4px 20px rgba(0,229,255,0.35);
+  font-family:'DM Sans',sans-serif;
+}
+.notify-btn:hover{
+  transform:scale(1.04);
+}
+</style>
+
+<button class="notify-btn" onclick="enableNotifications()">🔔 Enable Routine Alerts</button>
+
+<script>
+const routineAlerts = [
+  { time: "05:30", title: "⏰ Wake Up", body: "Start your elite routine. Open curtains and hydrate." },
+  { time: "06:30", title: "📚 Study Block", body: "Deep focus session starts now." },
+  { time: "07:30", title: "💪 Workout Time", body: "Calisthenics session starts now." },
+  { time: "09:00", title: "🏫 School Time", body: "Get ready for school/classes." },
+  { time: "15:00", title: "📚 Study Block 2", body: "Homework and revision time." },
+  { time: "16:00", title: "💕 Girlfriend Call", body: "Canada call time starts now." },
+  { time: "17:00", title: "🎬 Content Creation", body: "Start recording your content." },
+  { time: "18:15", title: "✂️ Editing Time", body: "Edit and prepare upload." },
+  { time: "19:15", title: "🚀 Upload Video", body: "Upload your content now." },
+  { time: "20:00", title: "⌨️ Typing Practice", body: "Typing + skill learning session." },
+  { time: "21:00", title: "🌙 Night Routine", body: "Skincare, journaling, planning." },
+  { time: "22:00", title: "😴 Sleep Time", body: "Lights out. Recovery and growth time." }
+];
+
+function enableNotifications() {
+  if (!("Notification" in window)) {
+    alert("This browser does not support notifications.");
+    return;
+  }
+
+  Notification.requestPermission().then(permission => {
+    if (permission === "granted") {
+      alert("Routine notifications enabled!");
+      localStorage.setItem("routine_notifications", "enabled");
+      checkNotifications();
+      setInterval(checkNotifications, 30000);
+    } else {
+      alert("Notification permission denied.");
+    }
+  });
+}
+
+function showNotification(title, body) {
+  new Notification(title, {
+    body: body,
+    icon: "https://cdn-icons-png.flaticon.com/512/1827/1827392.png"
+  });
+}
+
+function checkNotifications() {
+  const now = new Date();
+  const currentTime =
+    String(now.getHours()).padStart(2, "0") + ":" +
+    String(now.getMinutes()).padStart(2, "0");
+
+  const todayKey = now.toDateString();
+
+  routineAlerts.forEach(alertItem => {
+    const uniqueKey = todayKey + "_" + alertItem.time;
+
+    if (
+      currentTime === alertItem.time &&
+      localStorage.getItem(uniqueKey) !== "sent"
+    ) {
+      showNotification(alertItem.title, alertItem.body);
+      localStorage.setItem(uniqueKey, "sent");
+    }
+  });
+}
+
+if (localStorage.getItem("routine_notifications") === "enabled") {
+  setInterval(checkNotifications, 30000);
+}
+</script>
+
+</body>
+</html>
